@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cyberpunk GUI - Register & Sign In</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cyber-cyan: #00f0ff;
+      --cyber-red: #ff003c;
+      --cyber-dark: #0a0a0c;
+      --cyber-bg: #121212;
+      --text-gray: #a0a0a0;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Rajdhani', sans-serif;
+    }
+
+    body {
+      background: radial-gradient(circle at top right, #3a1015, #0a0a0a 70%);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    /* Cyberpunk Modal Window */
+    .cyber-window {
+      background-color: var(--cyber-bg);
+      border: 1px solid var(--cyber-red);
+      width: 380px;
+      position: relative;
+      padding: 0 1.5rem 1.5rem 1.5rem;
+      box-shadow: 0 0 20px rgba(0,0,0,0.8);
+    }
+
+    /* Modal Header */
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid rgba(255, 0, 60, 0.2);
+    }
+
+    .modal-header h2 {
+      color: var(--cyber-cyan);
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .close-btn {
+      color: var(--cyber-red);
+      font-size: 1.2rem;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    /* Form Elements */
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .input-group label {
+      color: var(--cyber-cyan);
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .input-group input {
+      background: transparent;
+      border: none;
+      border-bottom: 3px solid var(--cyber-cyan);
+      color: var(--cyber-cyan);
+      padding: 0.6rem 0.5rem;
+      font-size: 0.95rem;
+      outline: none;
+      text-align: center;
+      transition: background 0.2s;
+    }
+
+    .input-group input:focus {
+      background: rgba(0, 240, 255, 0.05);
+    }
+
+    .input-group input::placeholder {
+      color: rgba(0, 240, 255, 0.4);
+    }
+
+    /* Buttons */
+    .btn {
+      padding: 0.8rem;
+      font-size: 1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      cursor: pointer;
+      border: none;
+      letter-spacing: 1px;
+      /* Chamfered bottom-right corner */
+      clip-path: polygon(0 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%);
+      transition: filter 0.2s;
+    }
+
+    .btn:hover {
+      filter: brightness(1.2);
+    }
+
+    .btn-solid {
+      background-color: var(--cyber-cyan);
+      color: #000;
+      margin-top: 0.5rem;
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      color: var(--cyber-cyan);
+      /* Faking a border that works with clip-path */
+      box-shadow: inset 0 0 0 1px var(--cyber-cyan);
+    }
+
+    /* Divider */
+    .divider {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      color: var(--cyber-red);
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin: 0.5rem 0;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      border-bottom: 1px solid var(--cyber-red);
+    }
+
+    .divider span {
+      padding: 0 10px;
+    }
+
+    /* Form Footer (Checkbox & Link) */
+    .form-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: -0.5rem;
+    }
+
+    .checkbox-container {
+      display: flex;
+      align-items: center;
+      color: var(--cyber-cyan);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      gap: 8px;
+    }
+
+    .checkbox-container input {
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      background-color: transparent;
+      border: 2px solid var(--cyber-cyan);
+      position: relative;
+      cursor: pointer;
+    }
+
+    .checkbox-container input:checked {
+      background-color: var(--cyber-cyan);
+    }
+
+    .checkbox-container input:checked::after {
+      content: '✓';
+      position: absolute;
+      color: #000;
+      font-size: 12px;
+      font-weight: bold;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .forgot-link {
+      color: var(--cyber-red);
+      font-size: 0.85rem;
+      text-decoration: underline;
+      font-weight: 600;
+    }
+
+    .forgot-link:hover {
+      text-decoration: none;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <div class="cyber-window">
+      <div class="modal-header">
+        <h2>REGISTER</h2>
+        <span class="close-btn">&times;</span>
+      </div>
+      
+      <form>
+        <div class="input-group">
+          <label>E-mail</label>
+          <input type="email" placeholder="office@honeti.com">
+        </div>
+        
+        <div class="input-group">
+          <label>Password</label>
+          <input type="password" placeholder="********">
+        </div>
+        
+        <div class="input-group">
+          <label>Repeat password</label>
+          <input type="password" placeholder="********">
+        </div>
+        
+        <button type="button" class="btn btn-solid">REGISTER</button>
+        
+        <div class="divider"><span>OR</span></div>
+        
+        <button type="button" class="btn btn-outline">SIGN IN</button>
+      </form>
+    </div>
+
+    <div class="cyber-window">
+      <div class="modal-header">
+        <h2>SIGN IN</h2>
+        <span class="close-btn">&times;</span>
+      </div>
+      
+      <form>
+        <div class="input-group">
+          <label>E-mail</label>
+          <input type="email" placeholder="E-mail address">
+        </div>
+        
+        <div class="input-group">
+          <label>Password</label>
+          <input type="password" placeholder="Password">
+        </div>
+        
+        <button type="button" class="btn btn-solid">SIGN IN</button>
+        
+        <div class="form-footer">
+          <label class="checkbox-container">
+            <input type="checkbox" checked>
+            Remember me
+          </label>
+          <a href="#" class="forgot-link">Forgot password?</a>
+        </div>
+        
+        <div class="divider"><span>OR</span></div>
+        
+        <button type="button" class="btn btn-outline">REGISTER</button>
+      </form>
+    </div>
+
+  </div>
+
+</body>
+</html>
